@@ -13,9 +13,13 @@
 /*.navbar .nav {
   float: right; }*/
 
+body {
+  font-family: "Arial","宋体",sans-serif;
+}
+
 /* Jekyll Bootstrap Colors */
 h1, h2, h3, h4 {
-  color: #f22430;
+  color: #000000;
 }
 #footer {
   background-color: #fdcd60;
