@@ -1,46 +1,74 @@
 ---
 layout: page
-title: Hello World!
-tagline: Supporting tagline
+title: 博客首页
 ---
 {% include JB/setup %}
 
-Read [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)
+本博客使用***Github Pages*** + ***Jekyll Bootstrap*** 构建。用于记录日常工作、学习过程的点点滴滴。
 
-Complete usage and documentation available at: [Jekyll Bootstrap](http://jekyllbootstrap.com)
+博客搭建请参考:
 
-## Update Author Attributes
+ - [Github Pages介绍 ](https://pages.github.com/)
+ - [通过GitHub Pages建立个人站点（详细步骤）](http://www.cnblogs.com/purediy/archive/2013/03/07/2948892.html)
+ - [Jekyll and Jekyll Bootstrap](http://jekyllbootstrap.com/lessons/jekyll-introduction.html)
 
-In `_config.yml` remember to specify your own data:
-    
-    title : My Blog =)
-    
-    author :
-      name : Name Lastname
-      email : blah@email.test
-      github : username
-      twitter : username
+## About me
 
-The theme should reference these variables whenever needed.
-    
-## Sample Posts
+---
 
-This blog contains sample posts which help stage pages and blog data.
-When you don't need the samples anymore just delete the `_posts/core-samples` folder.
+### <个人信息>
 
-    $ rm -rf _posts/core-samples
+陈建欣 / 男 / 1992 / 广东潮州
 
-Here's a sample "posts list".
+华南师范大学 / 本科 / 计算机科学与技术
 
-<ul class="posts">
-  {% for post in site.posts %}
-    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
-  {% endfor %}
-</ul>
+工作年限 : 1年
 
-## To-Do
+博客 : [http://blog.csdn.net/d6619309](http://blog.csdn.net/d6619309)
 
-This theme is still unfinished. If you'd like to be added as a contributor, [please fork](http://github.com/plusjade/jekyll-bootstrap)!
-We need to clean up the themes, make theme usage guides with theme-specific markup examples.
+Github : [https://github.com/ZzzCrazyPig](http://blog.csdn.net/d6619309)
 
 
+### <工作经历>
+
+---
+
+#### 1. 2015-07-01 至今
+
+高新兴科技集团股份有限公司 / 全职
+
+**【工作内容】**
+
+(1) 参与分布式MySQL中间件MyCat功能开发及维护
+
+基于MyCat1.3分支进行开发维护，主要包括：增强fdb语法解析对mysql语法的支持、支持mysql预处理dml语句的逻辑处理等。
+
+(2) 参与智慧城市数据清洗比对系统相关功能开发与维护
+
+基于Spring Batch 批处理框架和 SSH 框架实现数据清洗比对后台。
+
+(3) 负责智慧城市数据交换ETL工具Kettle二次开发
+
+负责Kettle开源ETL工具二次开发，主要包括：Spoon工具汉化、去除多余组件、开发步骤插件及作业插件、修复组件bug以及封装Kettle API供智慧城市数据交换中心调用。
+
+---
+
+#### 2. 2014-07-01 至 2015-05-01
+
+
+高新兴科技集团股份有限公司 / 实习
+
+
+**【工作内容】**
+
+(1) 参与分布式MySQL中间件MyCat技术预研并阅读部分源码
+
+(2) 参与MyCat及MySQL配置管理工具的开发
+
+---
+
+### <联系方式>
+
+ - 邮箱 : 18825111236@163.com
+ - 微信 : d6619309
+ - QQ : 542001354
