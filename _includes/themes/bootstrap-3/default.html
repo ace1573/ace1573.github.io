@@ -78,14 +78,33 @@
         </div><!-- /.navbar-collapse -->
       </nav>
 
-      <div class="container">
-        {{ content }}
+      <div class="container-fluid" style="padding: 15px;">
+		<div class="row" style="padding: 0 10px 0 15px;">
+			<div class="col-md-9">
+				<div class="row" style="background-color: #fff; border: 1px solid #ddd; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.075); padding: 20px;">
+					{{ content }}
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="row" style="background: #fff; border: 1px solid #ddd; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.075); min-height: 500px; margin-left: 1px; padding: 15px;">
+					<div id="introduction">
+						<div id="intro_mypic">
+							<img src="{{ site.url }}/assets/image/introduction/myPic.jpg" width="140px" height="140px" class="img-rounded img-responsive" />	
+						</div>
+						<div id="intro_content" style="margin-top: 10px;">
+							<h3>CrazyPig</h3>
+							<hr />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
       </div>
 
     </div>
 
     <div id="footer">
-      <div class="container">
+      <div class="container-fluid">
         <p>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
           with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
           and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
