@@ -9,7 +9,7 @@ highlighter: rouge
 # so be sure to set them if your theme uses them.
 #
 title : CrazyPig的技术博客
-tagline: Site Tagline
+tagline: 脚踏实地, 一步一步往上爬
 author :
   name : CrazyPig
   email : 18825111236@163.com
@@ -80,7 +80,7 @@ JB :
   # Set 'provider' to false to turn commenting off globally.
   #
   comments :
-    provider : false
+    provider : duoshuo
     disqus :
       short_name : jekyllbootstrap
     livefyre :
@@ -93,7 +93,7 @@ JB :
       width: 580
       colorscheme: light
     duoshuo :
-      short_name : jekyllbootstrap
+      name : zzzcrazypig
    
   # Settings for analytics helper
   # Set 'provider' to the analytics provider you want to use.
