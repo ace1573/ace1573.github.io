@@ -14,7 +14,8 @@
   float: right; }*/
 
 body {
-  font-family: "Arial","宋体",sans-serif;
+  font-family: "微软雅黑", "宋体", "Arial", sans-serif;
+  background-color: #eee;
 }
 
 /* Jekyll Bootstrap Colors */
@@ -22,6 +23,7 @@ h1, h2, h3, h4 {
   color: #000000;
 }
 #footer {
+  margin-top: 10px;
   background-color: #fdcd60;
 }
 
