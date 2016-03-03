@@ -2,10 +2,11 @@
 layout: post
 category : kettle
 tags : [java, kettle-advanced]
+title : Kettle Environment.init方法流程分析
 ---
 {% include JB/setup %}
 
-# 1. KettleEnvironment.init()详解
+## 1. KettleEnvironment.init()详解
 
 在Kettle的客户端工具，如Spoon、Pan、Kitchen、Carte等的源码中，都会有如下调用：
 
@@ -15,7 +16,7 @@ tags : [java, kettle-advanced]
 
 > kettle源码使用5.3版本。
 
-## 1.1 KettleEnvironment.init()初始化流程分析
+### 1.1 KettleEnvironment.init()初始化流程分析
 
 (1) 首先判断KettleClientEnvironment是否初始化，没初始化的话就调用
 
@@ -75,7 +76,7 @@ tags : [java, kettle-advanced]
 
 (6) 完成流程(1)至(5) 之后 KettleEnvironment就算初始化成功了。
 
-## 1.2 PluginRegistry.init()流程分析
+### 1.2 PluginRegistry.init()流程分析
 这个方法会间接调用该类的**init( boolean keepCache )**方法。主要作用是为了完成所有插件类的动态加载(加载到classpath)。
 
 核心代码片段如下：
@@ -144,7 +145,7 @@ tags : [java, kettle-advanced]
 
 > PluginRegistry维护一个HashMap来存放注册的组件(pluginMap)，其中key是每一种插件类型，value保存该插件类型的所有插件类集合(List)。
 
-## 1.3 总结
+### 1.3 总结
 
 (1) 在KettleEnvironment.init()方法里面主要实现了Kettle各种插件类型插件的动态加载以及注册到PluginRegistry。这个方法将所有插件动态加载到项目的classpath中，包括插件依赖的jar包。
 

@@ -2,14 +2,15 @@
 layout: post
 category : kettle
 tags : [java, kettle-basic]
+title : Kettle Carte简介
 ---
 {% include JB/setup %}
 
-# 1. Carte简介
+## 1. Carte简介
 
 Carte是Kettle内置的一个小型web服务端程序，使用Jetty作为web容器，提供http服务让客户端机器调用(Servlet方式实现)，它可以被用来远程执行转换、作业以及组成Kettle集群。
 
-# 2. Carte部署配置
+## 2. Carte部署配置
 
 ### 2.1 启动方法
 
@@ -132,7 +133,7 @@ Carte的xml配置文件内容示例:
 	http://hostname:port/kettle/runTrans/?trans=/path/to/transname&level=DebugLevel&ParameterName=ParameterValue*
 
 
-# 3. Carte集群
+## 3. Carte集群
 
 Kettle使用Carte来部署集群，Kettle集群概念有两个，普通集群和动态集群，集群的使用需要在Spoon界面中配置。集群中有两个角色，master和slave,不管是普通集群还是动态集群，master只能有一个。
 

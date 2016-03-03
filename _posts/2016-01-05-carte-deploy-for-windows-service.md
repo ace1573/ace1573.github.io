@@ -2,6 +2,7 @@
 layout: post
 category : kettle
 tags : [java, kettle-basic]
+title : 将Carte部署为Windows服务
 ---
 {% include JB/setup %}
 

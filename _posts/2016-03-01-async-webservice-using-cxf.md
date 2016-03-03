@@ -2,6 +2,7 @@
 layout: post
 category : webservice
 tags : [webservice,cxf]
+title : CXF异步WebService发布和调用
 ---
 {% include JB/setup %}
 
@@ -42,6 +43,7 @@ CXF提供了API供开发者来创建并使用**Continuation**,关于continuation
  
 通过`@UseAsyncMethod`注解同步方法，让同步方法在满足异步调用条件下调用其对应的异步方法
 
+
 	@UseAsyncMethod
 	public String sayHello(String username) {
 		return "hello " + username;
@@ -56,6 +58,7 @@ CXF提供了API供开发者来创建并使用**Continuation**,关于continuation
 		// ...
 		return null;
 	}
+
 
 如上所示,sayHello方法注解了@UseAsyncMethod,如果web容器支持异步调用，将会调用其对应的sayHelloAsync方法,如果不支持异步调用，那么将会调用同步的sayHello方法。
 
@@ -102,27 +105,29 @@ CXF依赖于Web容器来发布webservice,必须确保Web容器支持异步机制
 
 #### 2.2.1 开发HelloService接口
 
-	package com.hello;
+{% highlight java %}
+package com.hello;
+
+import java.util.concurrent.Future;
+
+import javax.jws.WebService;
+import javax.xml.ws.AsyncHandler;
+import javax.xml.ws.Response;
+import javax.xml.ws.ResponseWrapper;
+
+@WebService(name = "helloService")
+public interface HelloService {
 	
-	import java.util.concurrent.Future;
+	@ResponseWrapper(localName = "sayHelloResponse", className = "java.lang.String")
+	public String sayHello(String username);
+
+	@ResponseWrapper(localName = "sayHelloResponse", className = "java.lang.String")
+	public Future<String> sayHelloAsync(String username, AsyncHandler<String> asyncHandler);
 	
-	import javax.jws.WebService;
-	import javax.xml.ws.AsyncHandler;
-	import javax.xml.ws.Response;
-	import javax.xml.ws.ResponseWrapper;
+	public Response<String> sayHelloAsync(String username);
 	
-	@WebService(name = "helloService")
-	public interface HelloService {
-		
-		@ResponseWrapper(localName = "sayHelloResponse", className = "java.lang.String")
-		public String sayHello(String username);
-	
-		@ResponseWrapper(localName = "sayHelloResponse", className = "java.lang.String")
-		public Future<String> sayHelloAsync(String username, AsyncHandler<String> asyncHandler);
-		
-		public Response<String> sayHelloAsync(String username);
-		
-	}
+}
+{% endhighlight %}
 
 #### 2.2.2 实现HelloServiceImpl
 

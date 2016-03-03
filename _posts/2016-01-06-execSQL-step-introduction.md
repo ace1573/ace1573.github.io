@@ -2,6 +2,7 @@
 layout: post
 category : kettle
 tags : [java, kettle-basic]
+title : Kettle[执行SQL脚本]组件简介
 ---
 {% include JB/setup %}
 

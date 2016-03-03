@@ -6,6 +6,17 @@
 	color: #fff;
 }
 
+.navbar-primary .navbar-toggle {
+  border-color: #357ebd;
+}
+.navbar-primary .navbar-toggle:hover,
+.navbar-primary .navbar-toggle:focus {
+  background-color: #357ebd;
+}
+.navbar-primary .navbar-toggle .icon-bar {
+	background-color: #fff;
+}
+
 .navbar-primary .navbar-nav > li > a {
   color: #fff;
 }

@@ -70,39 +70,37 @@
             {% assign group = 'navigation' %}
             {% include JB/pages_list %}
           </ul>
-		  <!--
-          <form class="navbar-form navbar-right" role="search">
+		  
+          <!--<form class="navbar-form navbar-right" role="search">
             <div class="form-group">
               <input type="text" class="form-control" placeholder="Search">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-		  -->
+          </form>-->
+		  
         </div><!-- /.navbar-collapse -->
       </nav>
 
-      <div class="container-fluid" style="padding: 20px;">
-		<div class="row" style="padding: 0 10px 0 15px;">
-			<div class="col-xs-12 col-sm-8 col-md-9">
-				<div class="row" style="background-color: #fff; border: 1px solid #ddd; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.075); margin-right: 1px; padding: 20px;">
-					{{ content }}
+      <div class="container-fluid">
+		<div class="row pad-lr-10">
+			<div id="main-panel" class="col-xs-12 col-sm-8 col-md-9">
+				<div class="pad-20">
+					{{ content }}	
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-4 col-md-3">
-				<div class="row" style="background: #fff; border: 1px solid #ddd; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.075); min-height: 500px; margin-right: 1px; padding: 15px;">
-					<div id="introduction">
-						<div id="intro_mypic">
-							<img src="{{ site.url }}/assets/image/introduction/myPic.jpg" width="140px" height="140px" class="img-rounded img-responsive" />	
-						</div>
-						<div id="intro_content" style="margin-top: 10px;">
-							<h3>CrazyPig</h3>
-							<p>脚踏实地，一步一步地往上爬 ^_^</p>
-							<hr />
-							<p>姓名: 陈建欣</p>
-							<p>邮箱: 18825111236@163.com</p>
-							<p>微信: d6619309</p>
-							<p>QQ: 542001354</p>
-						</div>
+			<div id="intro-panel" class="col-xs-12 col-sm-4 col-md-3">
+				<div id="intro" class="pad-20">
+					<div id="intro-mypic">
+						<img src="{{ site.url }}/assets/image/introduction/myPic.jpg" width="140px" height="140px" class="img-rounded img-responsive" />	
+					</div>
+					<div id="intro-content">
+						<h3>CrazyPig</h3>
+						<p>脚踏实地，一步一步地往上爬 ^_^</p>
+						<hr />
+						<p>姓名: 陈建欣</p>
+						<p>邮箱: 18825111236@163.com</p>
+						<p>微信: d6619309</p>
+						<p>QQ: 542001354</p>
 					</div>
 				</div>
 			</div>
@@ -111,14 +109,17 @@
 
     </div>
 	
-	{% include widgets/back_top_button %}
+	<div id="back-top">
+		<a href="#top" title="回到顶部"></a>
+	</div>
 		
     <div id="footer">
       <div class="container-fluid">
-        <p>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
-          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
-          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
-        </p>
+		<div class="row">
+			<p class="text-center">&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
+			 with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+			</p>
+		</div>
       </div>
     </div>
 
@@ -129,5 +130,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ ASSET_PATH }}/bootstrap/js/jquery-latest.js"></script>
     <script src="{{ ASSET_PATH }}/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/js/to-top.js"></script>
+	<script src="/js/default.js"></script>
   </body>
 </html>
