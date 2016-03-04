@@ -1,20 +1,10 @@
 ---
 layout: page
-title: 博客首页
+title: 关于我
+header : About
+group: navigation
 ---
 {% include JB/setup %}
-
-本博客使用***Github Pages*** + ***Jekyll Bootstrap*** 构建。用于记录日常工作、学习过程的点点滴滴。
-
-博客搭建请参考:
-
- - [Github Pages介绍 ](https://pages.github.com/)
- - [通过GitHub Pages建立个人站点（详细步骤）](http://www.cnblogs.com/purediy/archive/2013/03/07/2948892.html)
- - [Jekyll and Jekyll Bootstrap](http://jekyllbootstrap.com/lessons/jekyll-introduction.html)
-
-## About me
-
----
 
 ### <个人信息>
 
