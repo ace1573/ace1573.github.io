@@ -155,9 +155,8 @@ body {
 
 @media screen and (max-width: 768px) {
 	#intro-panel {
-		/*margin-top: 5px;
-		border-left: 1px solid #ddd;*/
-		display: none;
+		margin-top: 5px;
+		border-left: 1px solid #ddd;
 	}
 }
 
