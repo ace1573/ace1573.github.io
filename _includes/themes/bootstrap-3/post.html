@@ -4,9 +4,12 @@
 
 <div class="row post-full">
   <div class="col-xs-12">
-    <div class="date">
+	<div class="date">
       <span>{{ page.date | date_to_long_string }}</span>
     </div>
+	<div id="onekey_share">
+		{% include /widgets/baidu_share %}
+	</div>
     <div class="content">
       {{ content }}
     </div>
