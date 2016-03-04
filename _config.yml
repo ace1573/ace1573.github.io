@@ -6,10 +6,13 @@ exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
 markdown: kramdown
 highlighter: rouge
 
+gems: [jekyll-paginate]
+paginate: 5
+
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : CrazyPig的技术博客
+title : CrazyPig's Blog
 tagline: 脚踏实地, 一步一步往上爬
 author :
   name : CrazyPig

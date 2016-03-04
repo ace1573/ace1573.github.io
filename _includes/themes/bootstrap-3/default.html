@@ -25,6 +25,8 @@
 	<link href="{{ ASSET_PATH}}/bootstrap/css/bootstrap-extend.css" rel="stylesheet">
 	<link href="{{ ASSET_PATH}}/bootstrap/css/bootstrap-theme-extend.css" rel="stylesheet">
 
+	<link href="{{ ASSET_PATH}}/bootstrap/css/font-awesome.css" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -82,25 +84,41 @@
       </nav>
 
       <div class="container-fluid">
-		<div class="row pad-lr-10">
-			<div id="main-panel" class="col-xs-12 col-sm-8 col-md-9">
-				<div class="pad-20">
+		<div class="row">
+			<div id="main-panel" class="col-sm-8 col-md-7 col-md-offset-1">
+				<div class="pad-top-20">
 					{{ content }}	
 				</div>
 			</div>
-			<div id="intro-panel" class="col-xs-12 col-sm-4 col-md-3">
-				<div id="intro" class="pad-20">
-					<div id="intro-mypic">
-						<img src="{{ site.url }}/assets/image/introduction/myPic.jpg" width="140px" height="140px" class="img-rounded img-responsive" />	
-					</div>
-					<div id="intro-content">
+			<div id="intro-panel" class="col-sm-4 col-md-3">
+				<div id="intro">
+					<div id="intro-mypic" class="margin-top-20">
+						<img src="{{ site.url }}/assets/image/introduction/myPic.jpg" width="140px" height="140px" class="img-rounded img-responsive" />
 						<h3>CrazyPig</h3>
 						<p>脚踏实地，一步一步地往上爬 ^_^</p>
-						<hr />
-						<p>姓名: 陈建欣</p>
-						<p>邮箱: 18825111236@163.com</p>
-						<p>微信: d6619309</p>
-						<p>QQ: 542001354</p>
+					</div>
+					<hr />
+					<h4><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 与我联系</h4>
+					<div id="contact-me">
+						<a href="https://github.com/ZzzCrazyPig"><i class="fa fa-github fa-2x"></i></a>&nbsp;
+						<a href="javascript:void(0);"><i class="fa fa-envelope fa-2x"></i></a>&nbsp;
+						<a href="javascript:void(0);"><i class="fa fa-weixin fa-2x"></i></a>&nbsp;
+						<a href="javascript:void(0);"><i class="fa fa-qq fa-2x"></i></a>
+					</div>
+					<hr />
+					<h4><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> 标签云</h4>
+					<div id="tags-cloud">
+						{% include /widgets/tags_cloud %}
+					</div>
+					<hr />
+					<h4><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 最新发表</h4>
+					<div id="latest-article" class="pad-lr-10">
+						{% include /widgets/latest-article %}
+					</div>
+					<hr />
+					<h4><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 文章类别</h4>
+					<div id="article-categories" class="pad-lr-10 margin-bottom-20">
+						{% include /widgets/article-categories %}
 					</div>
 				</div>
 			</div>

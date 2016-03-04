@@ -1,0 +1,7 @@
+{% for category in site.categories %}
+    <li>
+	<a href="{{ BASE_PATH }}{{ site.JB.categories_path }}#{{ category[0] }}-ref">
+	{{ category[0] | join: "/" }} ({{ category[1].size }})</span>
+	</a>
+    </li>
+{% endfor %}

@@ -1,0 +1,74 @@
+---
+layout: default
+title: "博客首页"
+tagline: "Home Page"
+description: "Home Page"
+comments: false
+---
+{% include JB/setup %}
+
+<div>
+
+	{% for post in paginator.posts %}
+	<div id="article" class="well">
+		<div id="article-header">
+			<h3><a href="{{post.url}}">{{ post.title }}</a></h3>
+		</div>
+		<div id="content">
+			<p class="text-indent">
+				{{ post.content | strip_html | truncate : 350 }}
+			</p>
+		</div>
+		<div id="article-footer">
+			<p class="text-right">发布日期: {{ post.date | date : '%Y-%m-%d' }}</p>
+		</div>
+	</div>
+  {% endfor %}
+
+
+</div>
+
+
+<!-- Pagination Links -->
+<nav class="text-center">
+  <ul class="pagination">
+    <!-- First Page -->
+    {% if paginator.previous_page %}
+    <li><a href="/index.html">&laquo;&laquo;</a></li>
+    {% else %}
+    <li class="disabled"><a href="#">&laquo;&laquo;</a></li>
+    {% endif %}
+
+    <!-- Previous Page -->
+    {% if paginator.previous_page %}
+    <li>
+      {% if paginator.previous_page == 1 %}
+      <a href="/index.html">&laquo;</a>
+      {% else %}
+      <a href="/page{{ paginator.previous_page }}">&laquo;</a>
+      {% endif %}
+    </li>
+    {% else %}
+    <li class="disabled"><a href="#">&laquo;</a></li>
+    {% endif %}
+
+    <!-- Current Page -->
+    <li class="active">
+      <span class="page_number ">第 {{ paginator.page }}/{{ paginator.total_pages }} 页</span>
+    </li>
+
+    <!-- Next Page -->
+    {% if paginator.next_page %}
+    <li><a href="/page{{paginator.next_page}}">&raquo;</a></li>
+    {% else %}
+    <li class="disabled"><a href="#">&raquo;</a></li>
+    {% endif %}
+
+    <!-- Last Page -->
+    {% if paginator.next_page %}
+    <li><a href="/page{{ paginator.total_pages }}">&raquo;&raquo;</a></li>
+    {% else %}
+    <li class="disabled"><a href="#">&raquo;&raquo;</a></li>
+    {% endif %}
+  </ul>
+</nav>
