@@ -100,10 +100,10 @@
 					<hr />
 					<h4><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 与我联系</h4>
 					<div id="contact-me">
-						<a href="https://github.com/ZzzCrazyPig"><i class="fa fa-github fa-2x"></i></a>&nbsp;
-						<a href="javascript:void(0);"><i class="fa fa-envelope fa-2x"></i></a>&nbsp;
-						<a href="javascript:void(0);"><i class="fa fa-weixin fa-2x"></i></a>&nbsp;
-						<a href="javascript:void(0);"><i class="fa fa-qq fa-2x"></i></a>
+						<a href="https://github.com/ZzzCrazyPig" target="_blank"><i class="fa fa-github fa-2x"></i></a>&nbsp;
+						<a href="javascript:void(0);" onclick="showEmail()"><i class="fa fa-envelope fa-2x"></i></a>&nbsp;
+						<a href="javascript:void(0);" onclick="showWeixin2DCode()"><i class="fa fa-weixin fa-2x"></i></a>&nbsp;
+						<a href="javascript:void(0);" onclick="showQQ2DCode()"><i class="fa fa-qq fa-2x"></i></a>
 					</div>
 					<hr />
 					<h4><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> 标签云</h4>
@@ -135,11 +135,29 @@
       <div class="container-fluid">
 		<div class="row">
 			<p class="text-center">&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
-			 with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+			 with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a> and <a href="http://v3.bootcss.com" target="_blank" title="Bootstrap中文网">Bootstrap中文网</a>
 			</p>
 		</div>
       </div>
     </div>
+
+	<div id="myModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">提示</h4>
+				</div>
+				<div id="myModalBody" class="modal-body text-center">
+					<!-- use jquery to insert content here -->
+					<p>加载失败</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 
     {% include JB/analytics %}
 
