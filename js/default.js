@@ -1,5 +1,19 @@
 $(document).ready(function(){
 	// ....
+	
+	var contentWidth = $('.post-full .content').width();
+	$('.post-full .content img').each(function() {
+		var imgWidth = $(this).width();
+		if(imgWidth > contentWidth) {
+			$(this).css({
+				width: 100%,
+				height: 100%;
+			});
+		}
+	});
+	
+}
+	
 });
 
 var showEmail = function() {
