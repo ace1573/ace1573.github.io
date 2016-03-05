@@ -13,12 +13,14 @@ title : 将Carte部署为Windows服务
 将Carte部署成Windows Service，让Carte能够随着操作系统的启动而自动启动。
 ![show_carte_windows_service]({{ site.url }}/assets/image/carte-deploy-for-windows-service/show_carte_windows_service.png)
 
-参考:[http://wiki.pentaho.com/display/EAI/Carte+as+a+Windows+Service](http://wiki.pentaho.com/display/EAI/Carte+as+a+Windows+Service)
+参考:[Carte as a Windows Service](http://wiki.pentaho.com/display/EAI/Carte+as+a+Windows+Service)
 
 ## 3. 部署步骤
+
 ### 3.1 下载YAJSW
 AJSW是一个开源的Java服务包装(Java Service Wrapper)工具。YAJSW允许您把任何应用程序安装为window的服务或者作为一个Linux posix的守护进程进行监控。
 将下载的压缩包解压到合适的目录下，并重命名为default，eg:将压缩包解压到D:\Pentaho\CarteService\default
+
 ### 3.2 配置wrapper.conf
 将提供的wrapper.conf.pentaho_installer_notes拷贝到`<CarteServiceFolder>/conf`目录下并重命名为wrapper.conf，并对以下配置项进行配置：
 
@@ -64,6 +66,7 @@ AJSW是一个开源的Java服务包装(Java Service Wrapper)工具。YAJSW允许
 
 ### 3.3 运行测试
 双击运行`<CarteServiceFolder>\bat\runConsole.bat`，如果出现以下输出，证明配置成功并能够成功运行Carte
+
 ![show_runConsole_success]({{ site.url }}/assets/image/carte-deploy-for-windows-service/show_runConsole_success.png)
 
 ### 3.4 安装成Windows Service
@@ -97,7 +100,8 @@ AJSW是一个开源的Java服务包装(Java Service Wrapper)工具。YAJSW允许
 
 ## 5. 更详细的Carte启动配置
 使用xml文件配置Carte的文档请参考：
-[http://wiki.pentaho.com/display/EAI/Carte+Configuration](http://wiki.pentaho.com/display/EAI/Carte+Configuration)
+
+[Carte XML配置](http://wiki.pentaho.com/display/EAI/Carte+Configuration)
 
 使用yajsw配置carte启动使用xml配置文件的方法如下：
 

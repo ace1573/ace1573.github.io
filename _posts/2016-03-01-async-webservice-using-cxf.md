@@ -37,7 +37,7 @@ CXF提供了两种方法来响应客户端的异步webservice请求，包括:
 
 CXF提供了API供开发者来创建并使用**Continuation**,关于continuation的详细介绍请查看以下链接:
 
-[http://sberyozkin.blogspot.com/2008/12/continuations-in-cxf.html](http://sberyozkin.blogspot.com/2008/12/continuations-in-cxf.html)
+[continuations in cxf](http://sberyozkin.blogspot.com/2008/12/continuations-in-cxf.html)
 
 **(2) @UseAsyncMethod annotation**
  
@@ -64,11 +64,11 @@ CXF提供了API供开发者来创建并使用**Continuation**,关于continuation
 
 **【注意】**
 
-CXF依赖于Web容器来发布webservice,必须确保Web容器支持异步机制才能使CXF发布的webservice成功处理来自客户端的异步请求。eg:通过Tomcat配置CXF发布webservice必须确保配置在web.xml的CXFServlet配置了**<async-supported>**为true
+CXF依赖于Web容器来发布webservice,必须确保Web容器支持异步机制才能使CXF发布的webservice成功处理来自客户端的异步请求。eg:通过Tomcat配置CXF发布webservice必须确保配置在web.xml的CXFServlet配置了**async-supported**为true
 
 ## 2. 示例
 
-通过发布一个HelloService异步webservice以及开发HelloClient来向大家说明基于CXF如何开发和调用异步的webservice。示例代码可以在我的github拉取:[https://github.com/ZzzCrazyPig/CXFTutorial.git](https://github.com/ZzzCrazyPig/CXFTutorial.git)
+通过发布一个HelloService异步webservice以及开发HelloClient来向大家说明基于CXF如何开发和调用异步的webservice。示例代码可以在我的github拉取:[CXFTutorial](https://github.com/ZzzCrazyPig/CXFTutorial.git)
 
 ### 2.1 环境说明
 
@@ -235,7 +235,7 @@ public interface HelloService {
 
 完成以上步骤后通过Tomcat7加载应用，访问[http://localhost:8080/CXFTutorial/services](http://localhost:8080/CXFTutorial/services)可以看到CXF发布的webservice
 
-<img src="{{ site.url }}/assets/image/async-webservice-using-cxf/show_cxf_publish_services.png" width="80%" />
+![show cxf publish services]({{ site.url }}/assets/image/async-webservice-using-cxf/show_cxf_publish_services.png)
 
 ### 2.4 开发webservice客户端调用
 
