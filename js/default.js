@@ -2,17 +2,17 @@ $(document).ready(function(){
 	// ....
 	
 	var contentWidth = $('.post-full .content').width();
+	console.info('contentWidth = ' + contentWidth);
 	$('.post-full .content img').each(function() {
 		var imgWidth = $(this).width();
-		if(imgWidth > contentWidth) {
+		console.info($(this).attr('src') + ', img width = ' + imgWidth);
+		if(imgWidth > contentWidth || imgWidth == 0) {
 			$(this).css({
-				width: 100%,
-				height: 100%;
+				'width': '100%',
+				'height': '100%'
 			});
 		}
 	});
-	
-}
 	
 });
 
