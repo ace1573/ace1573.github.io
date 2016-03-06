@@ -43,7 +43,7 @@ CXF提供了API供开发者来创建并使用**Continuation**,关于continuation
  
 通过`@UseAsyncMethod`注解同步方法，让同步方法在满足异步调用条件下调用其对应的异步方法
 
-```java
+{% highlight java %}
 @UseAsyncMethod
 public String sayHello(String username) {
 	return "hello " + username;
@@ -58,7 +58,7 @@ public Response<String> sayHelloAsync(String username) {
 	// ...
 	return null;
 }
-```
+{% endhighlight %}
 
 如上所示,sayHello方法注解了@UseAsyncMethod,如果web容器支持异步调用，将会调用其对应的sayHelloAsync方法,如果不支持异步调用，那么将会调用同步的sayHello方法。
 
