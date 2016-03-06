@@ -28,59 +28,61 @@ title : Kettle[执行SQL脚本]组件简介
 
 通过阅读【执行SQL脚本】组件的源码主类`ExecSQL`发现，对于没有勾选"执行每一行?"选项的sql脚本的执行是在`init`方法里面完成的。
 
-	public boolean init( StepMetaInterface smi, StepDataInterface sdi ) {
-	    meta = (ExecSQLMeta) smi;
-	    data = (ExecSQLData) sdi;
-	
-	    if ( super.init( smi, sdi ) ) {
-	      if ( meta.getDatabaseMeta() == null ) {
-	        logError( BaseMessages.getString( PKG, "ExecSQL.Init.ConnectionMissing", getStepname() ) );
-	        return false;
-	      }
-	      data.db = new Database( this, meta.getDatabaseMeta() );
-	      data.db.shareVariablesWith( this );
-	
-	      // Connect to the database
-	      try {
-	        if ( getTransMeta().isUsingUniqueConnections() ) {
-	          synchronized ( getTrans() ) {
-	            data.db.connect( getTrans().getTransactionId(), getPartitionID() );
-	          }
-	        } else {
-	          data.db.connect( getPartitionID() );
-	        }
-	
-	        if ( log.isDetailed() ) {
-	          logDetailed( BaseMessages.getString( PKG, "ExecSQL.Log.ConnectedToDB" ) );
-	        }
-	
-	        if ( meta.isReplaceVariables() ) {
-	          data.sql = environmentSubstitute( meta.getSql() );
-	        } else {
-	          data.sql = meta.getSql();
-	        }
-	        // If the SQL needs to be executed once, this is a starting step
-	        // somewhere.
-	        if ( !meta.isExecutedEachInputRow() ) {
-	          if ( meta.isSingleStatement() ) {
-	            data.result = data.db.execStatement( data.sql );
-	          } else {
-	            data.result = data.db.execStatements( data.sql );
-	          }
-	          if ( !data.db.isAutoCommit() ) {
-	            data.db.commit();
-	          }
-	        }
-	        return true;
-	      } catch ( KettleException e ) {
-	        logError( BaseMessages.getString( PKG, "ExecSQL.Log.ErrorOccurred" ) + e.getMessage() );
-	        setErrors( 1 );
-	        stopAll();
-	      }
-	    }
-	
-	    return false;
+```java
+public boolean init( StepMetaInterface smi, StepDataInterface sdi ) {
+    meta = (ExecSQLMeta) smi;
+    data = (ExecSQLData) sdi;
+
+    if ( super.init( smi, sdi ) ) {
+      if ( meta.getDatabaseMeta() == null ) {
+	logError( BaseMessages.getString( PKG, "ExecSQL.Init.ConnectionMissing", getStepname() ) );
+	return false;
+      }
+      data.db = new Database( this, meta.getDatabaseMeta() );
+      data.db.shareVariablesWith( this );
+
+      // Connect to the database
+      try {
+	if ( getTransMeta().isUsingUniqueConnections() ) {
+	  synchronized ( getTrans() ) {
+	    data.db.connect( getTrans().getTransactionId(), getPartitionID() );
 	  }
+	} else {
+	  data.db.connect( getPartitionID() );
+	}
+
+	if ( log.isDetailed() ) {
+	  logDetailed( BaseMessages.getString( PKG, "ExecSQL.Log.ConnectedToDB" ) );
+	}
+
+	if ( meta.isReplaceVariables() ) {
+	  data.sql = environmentSubstitute( meta.getSql() );
+	} else {
+	  data.sql = meta.getSql();
+	}
+	// If the SQL needs to be executed once, this is a starting step
+	// somewhere.
+	if ( !meta.isExecutedEachInputRow() ) {
+	  if ( meta.isSingleStatement() ) {
+	    data.result = data.db.execStatement( data.sql );
+	  } else {
+	    data.result = data.db.execStatements( data.sql );
+	  }
+	  if ( !data.db.isAutoCommit() ) {
+	    data.db.commit();
+	  }
+	}
+	return true;
+      } catch ( KettleException e ) {
+	logError( BaseMessages.getString( PKG, "ExecSQL.Log.ErrorOccurred" ) + e.getMessage() );
+	setErrors( 1 );
+	stopAll();
+      }
+    }
+
+    return false;
+  }
+```
 
 只有当转换里面的所有步骤都完成了`init`方法的调用以后，步骤才真正的开始处理数据。因此，通常情况下，【执行SQL脚本】步骤都是在一个转换中最先被执行的。
 

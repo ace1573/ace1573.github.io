@@ -151,10 +151,10 @@ public class HelloServiceImpl implements HelloService {
 	public String sayHello(String username) {
 		System.out.println("execute sayHello method");
 		try {
-Thread.sleep(5000);
-} catch (InterruptedException e) {
-e.printStackTrace();
-}
+		    Thread.sleep(5000);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
 		return "hello " + username;
 	}
 
@@ -163,16 +163,15 @@ e.printStackTrace();
 			AsyncHandler<String> asyncHandler) {
 		System.out.println("execute sayHelloAsync method");
 		final ServerAsyncResponse<String> asyncResponse = new ServerAsyncResponse<String>();
-new Thread() {
-public void run() {
-String result = sayHello(username);
-asyncResponse.set(result);
-System.out.println("Responding on background thread\n");
-asyncHandler.handleResponse(asyncResponse);
-}
-}.start();
-
-return asyncResponse;
+		new Thread() {
+		    public void run() {
+		        String result = sayHello(username);
+		        asyncResponse.set(result);
+		        System.out.println("Responding on background thread\n");
+		        asyncHandler.handleResponse(asyncResponse);
+		    }
+		}.start();
+		return asyncResponse;
 	}
 
 	@Override

@@ -20,7 +20,9 @@ title : Kettle Environment.init方法流程分析
 
 (1) 首先判断KettleClientEnvironment是否初始化，没初始化的话就调用
 
-	KettleClientEnvironment.init()
+```java
+KettleClientEnvironment.init()
+```
 
 进行初始化。该方法完成的动作主要是：
  
@@ -31,44 +33,52 @@ title : Kettle Environment.init方法流程分析
 
 其中加载plugin的代码如下所示：
 
-    // Load value meta data plugins
-    // 
-	PluginRegistry.addPluginType( LoggingPluginType.getInstance() );
-    PluginRegistry.addPluginType( ValueMetaPluginType.getInstance() );
-    PluginRegistry.addPluginType( DatabasePluginType.getInstance() );
-    PluginRegistry.addPluginType( ExtensionPointPluginType.getInstance() );
-    PluginRegistry.addPluginType( TwoWayPasswordEncoderPluginType.getInstance() );
-    PluginRegistry.init( true );
+```java
+// Load value meta data plugins
+// 
+PluginRegistry.addPluginType( LoggingPluginType.getInstance() );
+PluginRegistry.addPluginType( ValueMetaPluginType.getInstance() );
+PluginRegistry.addPluginType( DatabasePluginType.getInstance() );
+PluginRegistry.addPluginType( ExtensionPointPluginType.getInstance() );
+PluginRegistry.addPluginType( TwoWayPasswordEncoderPluginType.getInstance() );
+PluginRegistry.init( true );
+```
 
 (2) 判断是否需要初始化JDNI，如果需要就调用
 
-	JndiUtil.initJNDI();
+```java
+JndiUtil.initJNDI();
+```
 
 来初始化JNDI。
 
 (3) 继续加载剩余的plugin，并在PluginRegistry中注册这些plugin,加载的plugin如下所示：
 
 
-	// Register the native types and the plugins for the various plugin types...
-    //
-	PluginRegistry.addPluginType( RowDistributionPluginType.getInstance() );
-    PluginRegistry.addPluginType( StepPluginType.getInstance() );
-    PluginRegistry.addPluginType( PartitionerPluginType.getInstance() );
-    PluginRegistry.addPluginType( JobEntryPluginType.getInstance() );
-    PluginRegistry.addPluginType( LogTablePluginType.getInstance() );
-    PluginRegistry.addPluginType( RepositoryPluginType.getInstance() );
-    PluginRegistry.addPluginType( LifecyclePluginType.getInstance() );
-    PluginRegistry.addPluginType( KettleLifecyclePluginType.getInstance() );
-    PluginRegistry.addPluginType( ImportRulePluginType.getInstance() );
-    PluginRegistry.addPluginType( CartePluginType.getInstance() );
-    PluginRegistry.addPluginType( CompressionPluginType.getInstance() );
-    PluginRegistry.addPluginType( AuthenticationProviderPluginType.getInstance() );
-    PluginRegistry.addPluginType( AuthenticationConsumerPluginType.getInstance() );
-    PluginRegistry.init();
+```java
+// Register the native types and the plugins for the various plugin types...
+//
+PluginRegistry.addPluginType( RowDistributionPluginType.getInstance() );
+PluginRegistry.addPluginType( StepPluginType.getInstance() );
+PluginRegistry.addPluginType( PartitionerPluginType.getInstance() );
+PluginRegistry.addPluginType( JobEntryPluginType.getInstance() );
+PluginRegistry.addPluginType( LogTablePluginType.getInstance() );
+PluginRegistry.addPluginType( RepositoryPluginType.getInstance() );
+PluginRegistry.addPluginType( LifecyclePluginType.getInstance() );
+PluginRegistry.addPluginType( KettleLifecyclePluginType.getInstance() );
+PluginRegistry.addPluginType( ImportRulePluginType.getInstance() );
+PluginRegistry.addPluginType( CartePluginType.getInstance() );
+PluginRegistry.addPluginType( CompressionPluginType.getInstance() );
+PluginRegistry.addPluginType( AuthenticationProviderPluginType.getInstance() );
+PluginRegistry.addPluginType( AuthenticationConsumerPluginType.getInstance() );
+PluginRegistry.init();
+```
 
 (4) 初始化kettle变量，通过调用
 
-	KettleVariablesList.init()
+```java
+KettleVariablesList.init()
+```
 
 来初始化kettle-variables.xml里面的kettle变量。
 
@@ -81,19 +91,25 @@ title : Kettle Environment.init方法流程分析
 
 核心代码片段如下：
 	
-	for ( final PluginTypeInterface pluginType : pluginTypes ) {
-      log.snap( Metrics.METRIC_PLUGIN_REGISTRY_PLUGIN_TYPE_REGISTRATION_START, pluginType.getName() );
-      registry.registerType( pluginType );
-      log.snap( Metrics.METRIC_PLUGIN_REGISTRY_PLUGIN_TYPE_REGISTRATION_STOP, pluginType.getName() );
-	}
+```java
+for ( final PluginTypeInterface pluginType : pluginTypes ) {
+log.snap( Metrics.METRIC_PLUGIN_REGISTRY_PLUGIN_TYPE_REGISTRATION_START, pluginType.getName() );
+registry.registerType( pluginType );
+log.snap( Metrics.METRIC_PLUGIN_REGISTRY_PLUGIN_TYPE_REGISTRATION_STOP, pluginType.getName() );
+}
+```
 
 对于每一种插件类型PluginTypeInterface都需要调用：
 
-	registry.registerType( pluginType )
+```java
+registry.registerType( pluginType )
+```
 
 在**registerType()**方法会调用
 
-	pluginType.searchPlugins()
+```java
+pluginType.searchPlugins()
+```
 
 来寻找该类型插件的所有插件。
 
@@ -106,22 +122,29 @@ title : Kettle Environment.init方法流程分析
  
 (1) 内置插件(registerNatives)
 
-	registerNatives();
+```java
+registerNatives();
+```
 
 (2) 注解插件(registerPluginJars)
 
-	registerPluginJars();
+```java
+registerPluginJars();
+```
 
 (3) xml配置的外置插件(registerXmlPlugins)
 
-	registerXmlPlugins();
-
+```java
+registerXmlPlugins();
+```
 
 **eg:**
 
 (1) **StepPluginType**的**registerNatives**方法会遍历加载kettle内置的`kettle-steps.xml`中所有的step组件，然后通过调用：
 
-	registry.registerPlugin( pluginType, pluginInterface )
+```java
+registry.registerPlugin( pluginType, pluginInterface )
+```
 
 将组件注册到PluginRegistry。
 

@@ -20,22 +20,26 @@ Windows操作系统使用Carte.bat来启动Carte服务，Linux操作系统则使
 
 当运行Carte.bat或者carte.sh，默认不带参数会输出其正确的使用示例，如下所示:
 
-	....
-	Usage: Carte [Interface address] [Port]
-	
-	Example: Carte 127.0.0.1 8080
-	Example: Carte 192.168.1.221 8081
-	
-	Example: Carte /foo/bar/carte-config.xml
-	Example: Carte http://www.example.com/carte-config.xml
+```bash
+....
+Usage: Carte [Interface address] [Port]
+
+Example: Carte 127.0.0.1 8080
+Example: Carte 192.168.1.221 8081
+
+Example: Carte /foo/bar/carte-config.xml
+Example: Carte http://www.example.com/carte-config.xml
+```
 
 Carte的启动配置有两种方式，以Windows操作系统为例，分别是:
 
-	Carte.bat [ip] [port]
-	
-	or
+```bash
+Carte.bat [ip] [port]
 
-	Carte.bat [xml_cfg_file]
+or
+
+Carte.bat [xml_cfg_file]
+```
 
 第一种方式使用两个配置参数 ip 和 port 来启动Carte，这种方式适用于测试环境。第二种方式通过指定配置文件 `xml_cfg_file` 来启动Carte，所有的配置项都存放在配置文件中，这种方式适用于生产环境。
 
@@ -46,8 +50,10 @@ Carte的启动配置有两种方式，以Windows操作系统为例，分别是:
 (2) 切记绑定的ip如果使用localhost,内网中其他机器也无法访问你的Carte服务，所以建议绑定Carte的ip不要设置为localhost。
 
 (3) 配置文件路径可以采用绝对路径或者相对路径，相对路径eg:
- 
-	Carte.bat ./pwd/carte-config-8081.xml
+
+```bash
+Carte.bat ./pwd/carte-config-8081.xml
+```
 
 例子中配置文件使用是相对于Kettle的安装目录的子目录pwd里面的carte-config-8081.xml。
 
@@ -55,32 +61,34 @@ Carte的启动配置有两种方式，以Windows操作系统为例，分别是:
 
 Carte的xml配置文件内容示例:
 
-	<slave_config>
-	  <slaveserver>
-	    <name>Slave01</name>
-	    <hostname>localhost</hostname>
-	    <port>9081</port>
-		<master>N</master>
-	  </slaveserver>
-	
-	  <masters>
-	    <slaveserver>
-	      <name>master1</name>
-	      <hostname>localhost</hostname>
-	      <port>9080</port>
-	      <!--<webAppName>pentaho-di</webAppName>-->
-	      <username>admin</username>
-	      <password>password</password>
-	      <master>Y</master>
-	    </slaveserver>
-	  </masters>
-	
-	  <report_to_masters>Y</report_to_masters>
-	
-	  <max_log_lines>10000</max_log_lines>
-	  <max_log_timeout_minutes>1440</max_log_timeout_minutes>
-	  <object_timeout_minutes>1440</object_timeout_minutes>
-	</slave_config>
+```xml
+<slave_config>
+  <slaveserver>
+    <name>Slave01</name>
+    <hostname>localhost</hostname>
+    <port>9081</port>
+	<master>N</master>
+  </slaveserver>
+
+  <masters>
+    <slaveserver>
+      <name>master1</name>
+      <hostname>localhost</hostname>
+      <port>9080</port>
+      <!--<webAppName>pentaho-di</webAppName>-->
+      <username>admin</username>
+      <password>password</password>
+      <master>Y</master>
+    </slaveserver>
+  </masters>
+
+  <report_to_masters>Y</report_to_masters>
+
+  <max_log_lines>10000</max_log_lines>
+  <max_log_timeout_minutes>1440</max_log_timeout_minutes>
+  <object_timeout_minutes>1440</object_timeout_minutes>
+</slave_config>
+```
 
 可见所有的配置项都包含在 `<slave_config>` 节点里。 下面简要介绍各个xml配置节点的使用:
 
@@ -116,11 +124,13 @@ Carte的xml配置文件内容示例:
 
 示例:
 
-	<repository>
-	  <name>Repository Name (id)</name>
-	  <username>username</username>
-	  <password>password</password>
-	</repository>
+```xml
+<repository>
+  <name>Repository Name (id)</name>
+  <username>username</username>
+  <password>password</password>
+</repository>
+```
 
 这个配置在Kettle5+版本才支持，配置该选项以便Carte能够连接到资源库，执行资源库里面的转换或者作业。请求的Servlet为 `runJob` 和 `runTrans`，使用示例如下:
 

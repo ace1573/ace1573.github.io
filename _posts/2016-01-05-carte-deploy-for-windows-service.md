@@ -28,13 +28,17 @@ AJSW是一个开源的Java服务包装(Java Service Wrapper)工具。YAJSW允许
 
 指定kettle根目录 
 
-	wrapper.working.dir=D:/kettle5.3
+```properties
+wrapper.working.dir=D:/kettle5.3
+```
 
 (2) wrapper.java.app.jar
 
 指定kettle启动jar
 
-	wrapper.java.app.jar = .\\launcher\\pentaho-application-launcher-5.3.0.0-213.jar
+```properties
+wrapper.java.app.jar = .\\launcher\\pentaho-application-launcher-5.3.0.0-213.jar
+```
 
 【注意】 kettle4.x和5.x对应的jar命名是不一样的，根据具体版本的文件命名来配置
 
@@ -44,25 +48,33 @@ AJSW是一个开源的Java服务包装(Java Service Wrapper)工具。YAJSW允许
 
 指定java.exe所在的目录
 
-	wrapper.java.command = D:/Program Files/Java/jdk1.7.0_55_X64/bin/java.exe
+```properties
+wrapper.java.command = D:/Program Files/Java/jdk1.7.0_55_X64/bin/java.exe
+```
 
 (4) wrapper.app.parameter.3
 
 指定Carte服务绑定的ip
 
-	wrapper.app.parameter.3 = 192.168.31.33
+```properties
+wrapper.app.parameter.3 = 192.168.31.33
+```
 
 (5) wrapper.app.parameter.4
 
 指定Carte服务绑定的端口号
 
-	wrapper.app.parameter.4 = 8081
+```properties
+wrapper.app.parameter.4 = 8081
+```
 
 (6) wrapper.java.additional.1
 
 指定Carte服务所占用的最大内存
 
-	wrapper.java.additional.1 = -Xmx512m
+```properties
+wrapper.java.additional.1 = -Xmx512m
+```
 
 ### 3.3 运行测试
 双击运行`<CarteServiceFolder>\bat\runConsole.bat`，如果出现以下输出，证明配置成功并能够成功运行Carte
@@ -84,17 +96,21 @@ AJSW是一个开源的Java服务包装(Java Service Wrapper)工具。YAJSW允许
 
 【defulat wrapper.conf】
 
-	wrapper.ntservice.name=pentaho_carte_8081
-	wrapper.ntservice.displayname=Pentaho DI Carte Port With 8081
-	wrapper.app.parameter.4=8081
-	wrapper.tray = false
+```properties
+wrapper.ntservice.name=pentaho_carte_8081
+wrapper.ntservice.displayname=Pentaho DI Carte Port With 8081
+wrapper.app.parameter.4=8081
+wrapper.tray = false
+```
 
 【carte_8082 wrapper.conf】
 
-	wrapper.ntservice.name=pentaho_carte_8082
-	wrapper.ntservice.displayname=Pentaho DI Carte Port With 8082
-	wrapper.app.parameter.4=8082
-	wrapper.tray = false
+```properties
+wrapper.ntservice.name=pentaho_carte_8082
+wrapper.ntservice.displayname=Pentaho DI Carte Port With 8082
+wrapper.app.parameter.4=8082
+wrapper.tray = false
+```
 
 完成以上配置后按照3.3和3.4的步骤即可以在同一台机器上部署并运行多个Carte服务
 
@@ -107,11 +123,13 @@ AJSW是一个开源的Java服务包装(Java Service Wrapper)工具。YAJSW允许
 
 修改wrapper.conf如下所示：
 
-	wrapper.app.parameter.1 = -main
-	wrapper.app.parameter.2 = org.pentaho.di.www.Carte
-	wrapper.app.parameter.3 = ./pwd/carte-config-8081.xml
-	#wrapper.app.parameter.3 = 192.168.31.33
-	#wrapper.app.parameter.4 = 8081
+```properties
+wrapper.app.parameter.1 = -main
+wrapper.app.parameter.2 = org.pentaho.di.www.Carte
+wrapper.app.parameter.3 = ./pwd/carte-config-8081.xml
+#wrapper.app.parameter.3 = 192.168.31.33
+#wrapper.app.parameter.4 = 8081
+```
 
 把原来的wrapper.app.parameter.4注释掉，其中wrapper.app.parameter.3改为具体的配置文件，如图中所示 ./pwd/carte-config-8081.xml 的绝对路径为 ${wrapper.working.dir}/pwd/carte-config-8081.xml
 

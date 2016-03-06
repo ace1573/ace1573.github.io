@@ -16,58 +16,59 @@ title : Kettle[阻塞数据]组件简介
 
 BlockingStep `processRow` 函数代码如下:
 
-	public boolean processRow( StepMetaInterface smi, StepDataInterface sdi ) throws KettleException {
+```java
+public boolean processRow( StepMetaInterface smi, StepDataInterface sdi ) throws KettleException {
 
-	    boolean err = true;
-	    Object[] r = getRow(); // Get row from input rowset & set row busy!
-	
-	    // initialize
-	    if ( first && r != null ) {
-	      first = false;
-	      data.outputRowMeta = getInputRowMeta().clone();
-	    }
-	
-	    if ( !meta.isPassAllRows() ) {
-	      if ( r == null ) {
-	        // no more input to be expected...
-	        if ( lastRow != null ) {
-	          putRow( data.outputRowMeta, lastRow );
-	        }
-	        setOutputDone();
-	        return false;
-	      }
-	
-	      lastRow = r;
-	      return true;
-	    } else {
-	      // The mode in which we pass all rows to the output.
-	      err = addBuffer( getInputRowMeta(), r );
-	      if ( !err ) {
-	        setOutputDone(); // signal receiver we're finished.
-	        return false;
-	      }
+    boolean err = true;
+    Object[] r = getRow(); // Get row from input rowset & set row busy!
 
-	      if ( r == null ) {
-	        // no more input to be expected...
-	        // Now we can start the output!
-	        r = getBuffer();
-	        while ( r != null && !isStopped() ) {
-	          if ( log.isRowLevel() ) {
-	            logRowlevel( "Read row: " + getInputRowMeta().getString( r ) );
-	          }
-	
-	          putRow( data.outputRowMeta, r ); // copy row to possible alternate rowset(s).
-	
-	          r = getBuffer();
-	        }
-	
-	        setOutputDone(); // signal receiver we're finished.
-	        return false;
-	      }
-
-      		return true;
-    	}
+    // initialize
+    if ( first && r != null ) {
+      first = false;
+      data.outputRowMeta = getInputRowMeta().clone();
     }
+
+    if ( !meta.isPassAllRows() ) {
+      if ( r == null ) {
+	// no more input to be expected...
+	if ( lastRow != null ) {
+	  putRow( data.outputRowMeta, lastRow );
+	}
+	setOutputDone();
+	return false;
+      }
+
+      lastRow = r;
+      return true;
+    } else {
+      // The mode in which we pass all rows to the output.
+      err = addBuffer( getInputRowMeta(), r );
+      if ( !err ) {
+	setOutputDone(); // signal receiver we're finished.
+	return false;
+      }
+
+      if ( r == null ) {
+	// no more input to be expected...
+	// Now we can start the output!
+	r = getBuffer();
+	while ( r != null && !isStopped() ) {
+	  if ( log.isRowLevel() ) {
+	    logRowlevel( "Read row: " + getInputRowMeta().getString( r ) );
+	  }
+
+	  putRow( data.outputRowMeta, r ); // copy row to possible alternate rowset(s).
+
+	  r = getBuffer();
+	}
+
+	setOutputDone(); // signal receiver we're finished.
+	return false;
+      }
+
+	return true;
+}
+```
 
 ## 使用注意
  - 对于大量输入如果采用"Pass all rows"会造成大量磁盘读写io，严重影响性能，所以大量输入谨慎使用该组件。

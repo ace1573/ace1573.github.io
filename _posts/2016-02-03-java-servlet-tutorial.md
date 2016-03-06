@@ -255,134 +255,142 @@ Here is our login HTML page, we will put it in the welcome files list in the web
 
 **login.html**
 
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<meta charset="US-ASCII">
-	<title>Login Page</title>
-	</head>
-	<body>
-	 
-	<form action="LoginServlet" method="post">
-	 
-	Username: <input type="text" name="user">
-	<br>
-	Password: <input type="password" name="pwd">
-	<br>
-	<input type="submit" value="Login">
-	</form>
-	</body>
-	</html>
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="US-ASCII">
+<title>Login Page</title>
+</head>
+<body>
+ 
+<form action="LoginServlet" method="post">
+ 
+Username: <input type="text" name="user">
+<br>
+Password: <input type="password" name="pwd">
+<br>
+<input type="submit" value="Login">
+</form>
+</body>
+</html>
+```
 
 If the login will be successful, the user will be presented with new JSP page with login successful message. JSP page code is like below.
 
 **LoginSuccess.jsp**
 
-	<%@ page language="java" contentType="text/html; charset=US-ASCII"
-	    pageEncoding="US-ASCII"%>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-	<html>
-	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-	<title>Login Success Page</title>
-	</head>
-	<body>
-	<h3>Hi Pankaj, Login successful.</h3>
-	<a href="login.html">Login Page</a>
-	</body>
-	</html>
+```html
+<%@ page language="java" contentType="text/html; charset=US-ASCII"
+    pageEncoding="US-ASCII"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Login Success Page</title>
+</head>
+<body>
+<h3>Hi Pankaj, Login successful.</h3>
+<a href="login.html">Login Page</a>
+</body>
+</html>
+```
 
 Here is the web.xml deployment descriptor file where we have defined servlet context init parameters and welcome page.
 
 **web.xml**
 
-	<?xml version="1.0" encoding="UTF-8"?>
-	<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-	  <display-name>LoginExample</display-name>
-	  <welcome-file-list>
-	    <welcome-file>login.html</welcome-file>
-	  </welcome-file-list>
-	   
-	  <context-param>
-	  <param-name>dbURL</param-name>
-	  <param-value>jdbc:mysql://localhost/mysql_db</param-value>
-	  </context-param>
-	  <context-param>
-	  <param-name>dbUser</param-name>
-	  <param-value>mysql_user</param-value>
-	  </context-param>
-	  <context-param>
-	  <param-name>dbUserPwd</param-name>
-	  <param-value>mysql_pwd</param-value>
-	  </context-param>
-	</web-app>
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>LoginExample</display-name>
+  <welcome-file-list>
+    <welcome-file>login.html</welcome-file>
+  </welcome-file-list>
+   
+  <context-param>
+  <param-name>dbURL</param-name>
+  <param-value>jdbc:mysql://localhost/mysql_db</param-value>
+  </context-param>
+  <context-param>
+  <param-name>dbUser</param-name>
+  <param-value>mysql_user</param-value>
+  </context-param>
+  <context-param>
+  <param-name>dbUserPwd</param-name>
+  <param-value>mysql_pwd</param-value>
+  </context-param>
+</web-app>
+```
 
 Here is our final Servlet class for authenticating the user credentials, notice the use of annotations for Servlet configuration and ServletConfig init parameters.
 
 **LoginServlet.java**
 
-	package com.journaldev.servlet;
+```java
+package com.journaldev.servlet;
+ 
+import java.io.IOException;
+import java.io.PrintWriter;
+ 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+ 
+/**
+ * Servlet implementation class LoginServlet
+ */
+@WebServlet(
+	description = "Login Servlet", 
+	urlPatterns = { "/LoginServlet" }, 
+	initParams = { 
+		@WebInitParam(name = "user", value = "Pankaj"), 
+		@WebInitParam(name = "password", value = "journaldev")
+	})
+public class LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+	
+     
+    public void init() throws ServletException {
+	//we can create DB connection resource here and set it to Servlet context
+	if(getServletContext().getInitParameter("dbURL").equals("jdbc:mysql://localhost/mysql_db") &&
+		getServletContext().getInitParameter("dbUser").equals("mysql_user") &&
+		getServletContext().getInitParameter("dbUserPwd").equals("mysql_pwd"))
+	getServletContext().setAttribute("DB_Success", "True");
+	else throw new ServletException("DB Connection error");
+    }
+ 
+     
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+ 
+	//get request parameters for userID and password
+	String user = request.getParameter("user");
+	String pwd = request.getParameter("pwd");
 	 
-	import java.io.IOException;
-	import java.io.PrintWriter;
+	//get servlet config init params
+	String userID = getServletConfig().getInitParameter("user");
+	String password = getServletConfig().getInitParameter("password");
+	//logging example
+	log("User="+user+"::password="+pwd);
 	 
-	import javax.servlet.RequestDispatcher;
-	import javax.servlet.ServletException;
-	import javax.servlet.annotation.WebInitParam;
-	import javax.servlet.annotation.WebServlet;
-	import javax.servlet.http.HttpServlet;
-	import javax.servlet.http.HttpServletRequest;
-	import javax.servlet.http.HttpServletResponse;
-	 
-	/**
-	 * Servlet implementation class LoginServlet
-	 */
-	@WebServlet(
-	        description = "Login Servlet", 
-	        urlPatterns = { "/LoginServlet" }, 
-	        initParams = { 
-	                @WebInitParam(name = "user", value = "Pankaj"), 
-	                @WebInitParam(name = "password", value = "journaldev")
-	        })
-	public class LoginServlet extends HttpServlet {
-	    private static final long serialVersionUID = 1L;
-	        
+	if(userID.equals(user) && password.equals(pwd)){
+	    response.sendRedirect("LoginSuccess.jsp");
+	}else{
+	    RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
+	    PrintWriter out= response.getWriter();
+	    out.println("<font color=red>Either user name or password is wrong.</font>");
+	    rd.include(request, response);
 	     
-	    public void init() throws ServletException {
-	        //we can create DB connection resource here and set it to Servlet context
-	        if(getServletContext().getInitParameter("dbURL").equals("jdbc:mysql://localhost/mysql_db") &&
-	                getServletContext().getInitParameter("dbUser").equals("mysql_user") &&
-	                getServletContext().getInitParameter("dbUserPwd").equals("mysql_pwd"))
-	        getServletContext().setAttribute("DB_Success", "True");
-	        else throw new ServletException("DB Connection error");
-	    }
-	 
-	     
-	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	 
-	        //get request parameters for userID and password
-	        String user = request.getParameter("user");
-	        String pwd = request.getParameter("pwd");
-	         
-	        //get servlet config init params
-	        String userID = getServletConfig().getInitParameter("user");
-	        String password = getServletConfig().getInitParameter("password");
-	        //logging example
-	        log("User="+user+"::password="+pwd);
-	         
-	        if(userID.equals(user) && password.equals(pwd)){
-	            response.sendRedirect("LoginSuccess.jsp");
-	        }else{
-	            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
-	            PrintWriter out= response.getWriter();
-	            out.println("<font color=red>Either user name or password is wrong.</font>");
-	            rd.include(request, response);
-	             
-	        }
-	         
-	    }
-	 
 	}
+	 
+    }
+ 
+}
+```
 
 Below screenshots shows the different pages based on the user password combinations for successful login and failed logins.
 

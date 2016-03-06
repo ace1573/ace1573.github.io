@@ -10,10 +10,12 @@ title : Kettle 转换执行流程分析
 
 Kettle转换执行流程体现在Trans类的execute()方法，代码如下所示：
 
-	public void execute( String[] arguments ) throws KettleException {
-	    prepareExecution( arguments );
-	    startThreads();
-	}
+```java
+public void execute( String[] arguments ) throws KettleException {
+    prepareExecution( arguments );
+    startThreads();
+}
+```
 
 ### 1.1 prepareExecution流程分析
 
@@ -37,97 +39,102 @@ startThreads方法完成的主要工作是:
 
 核心StepListener构造片段代码如下所示:
 
-	StepListener stepListener = new StepListener() {
-       
-       .....
+```java
+StepListener stepListener = new StepListener() {
 
-        public void stepFinished( Trans trans, StepMeta stepMeta, StepInterface step ) {
-          synchronized ( Trans.this ) {
-            nrOfFinishedSteps++;
+.....
 
-            if ( nrOfFinishedSteps >= steps.size() ) {
-              // Set the finished flag
-              //
-              setFinished( true );
+public void stepFinished( Trans trans, StepMeta stepMeta, StepInterface step ) {
+  synchronized ( Trans.this ) {
+    nrOfFinishedSteps++;
 
-              // Grab the performance statistics one last time (if enabled)
-              //
-              addStepPerformanceSnapShot();
-
-              try {
-                fireTransFinishedListeners();
-              } catch ( Exception e ) {
-                step.setErrors( step.getErrors() + 1L );
-                log.logError( getName()
-                  + " : " + BaseMessages.getString( PKG, "Trans.Log.UnexpectedErrorAtTransformationEnd" ), e );
-              }
-            }
-
-            // If a step fails with an error, we want to kill/stop the others
-            // too...
-            //
-            if ( step.getErrors() > 0 ) {
-
-              log.logMinimal( BaseMessages.getString( PKG, "Trans.Log.TransformationDetectedErrors" ) );
-              log.logMinimal( BaseMessages.getString(
-                PKG, "Trans.Log.TransformationIsKillingTheOtherSteps" ) );
-
-              killAllNoWait();
-            }
-          }
-        }
-      };
-      // Make sure this is called first!
+    if ( nrOfFinishedSteps >= steps.size() ) {
+      // Set the finished flag
       //
-      if ( sid.step instanceof BaseStep ) {
-        ( (BaseStep) sid.step ).getStepListeners().add( 0, stepListener );
-      } else {
-        sid.step.addStepListener( stepListener );
+      setFinished( true );
+
+      // Grab the performance statistics one last time (if enabled)
+      //
+      addStepPerformanceSnapShot();
+
+      try {
+	fireTransFinishedListeners();
+      } catch ( Exception e ) {
+	step.setErrors( step.getErrors() + 1L );
+	log.logError( getName()
+	  + " : " + BaseMessages.getString( PKG, "Trans.Log.UnexpectedErrorAtTransformationEnd" ), e );
       }
+    }
 
+    // If a step fails with an error, we want to kill/stop the others
+    // too...
+    //
+    if ( step.getErrors() > 0 ) {
 
+      log.logMinimal( BaseMessages.getString( PKG, "Trans.Log.TransformationDetectedErrors" ) );
+      log.logMinimal( BaseMessages.getString(
+	PKG, "Trans.Log.TransformationIsKillingTheOtherSteps" ) );
+
+      killAllNoWait();
+    }
+  }
+}
+};
+// Make sure this is called first!
+//
+if ( sid.step instanceof BaseStep ) {
+( (BaseStep) sid.step ).getStepListeners().add( 0, stepListener );
+} else {
+sid.step.addStepListener( stepListener );
+}
+```
 
 fireTransFinishedListeners方法代码如下所示:
 
-
-	/**
-	   * Make attempt to fire all registered listeners if possible.
-	   *
-	   * @throws KettleException
-	   *           if any errors occur during notification
-	   */
- 	protected void fireTransFinishedListeners() throws KettleException {
-	    // PDI-5229 sync added
-	    synchronized ( transListeners ) {
-	      if ( transListeners.size() == 0 ) {
-	        return;
-	      }
-	      //prevent Exception from one listener to block others execution
-	      List<KettleException> badGuys = new ArrayList<KettleException>( transListeners.size() );
-	      for ( TransListener transListener : transListeners ) {
-	        try {
-	          transListener.transFinished( this );
-	        } catch ( KettleException e ) {
-	          badGuys.add( e );
-	        }
-	      }
-	      // Signal for the the waitUntilFinished blocker...
-	      transFinishedBlockingQueue.add( new Object() );
-	      if ( !badGuys.isEmpty() ) {
-	        //FIFO
-	        throw new KettleException( badGuys.get( 0 ) );
-	      }
-	    }
-  	}
+```java
+/**
+   * Make attempt to fire all registered listeners if possible.
+   *
+   * @throws KettleException
+   *           if any errors occur during notification
+   */
+protected void fireTransFinishedListeners() throws KettleException {
+    // PDI-5229 sync added
+    synchronized ( transListeners ) {
+      if ( transListeners.size() == 0 ) {
+	return;
+      }
+      //prevent Exception from one listener to block others execution
+      List<KettleException> badGuys = new ArrayList<KettleException>( transListeners.size() );
+      for ( TransListener transListener : transListeners ) {
+	try {
+	  transListener.transFinished( this );
+	} catch ( KettleException e ) {
+	  badGuys.add( e );
+	}
+      }
+      // Signal for the the waitUntilFinished blocker...
+      transFinishedBlockingQueue.add( new Object() );
+      if ( !badGuys.isEmpty() ) {
+	//FIFO
+	throw new KettleException( badGuys.get( 0 ) );
+      }
+    }
+}
+```
 
 fireTransFinishedListeners方法负责通知所有的TransListener转换已经结束，通过调用
 
-	transListener.transFinished(this)
+```java
+transListener.transFinished(this)
+```
 
 来完成通知。这个方法还负责解除waitUntilFinished方法调用的阻塞状态。waitUntilFinished方法在execute方法执行后调用可以等待转换结束或者出错才返回。这是因为该方法利用了一个阻塞队列(BlockingQueue)transFinishedBlockingQueue的poll方法来进行阻塞，而只有当上面讲到的fireTransFinishedListeners方法触发了，才会执行
 
-	// Signal for the the waitUntilFinished blocker...
-	transFinishedBlockingQueue.add( new Object() );
+```java
+// Signal for the the waitUntilFinished blocker...
+transFinishedBlockingQueue.add( new Object() );
+```java
 
 来解除阻塞队列的阻塞状态。
 
@@ -137,77 +144,78 @@ fireTransFinishedListeners方法负责通知所有的TransListener转换已经�
 
 RunThread的run方法代码如下所示：
 
+```java
+public void run() {
+    try {
+      step.setRunning( true );
+      step.getLogChannel().snap( Metrics.METRIC_STEP_EXECUTION_START );
 
-	public void run() {
-	    try {
-	      step.setRunning( true );
-	      step.getLogChannel().snap( Metrics.METRIC_STEP_EXECUTION_START );
-	
-	      if ( log.isDetailed() ) {
-	        log.logDetailed( BaseMessages.getString( "System.Log.StartingToRun" ) );
-	      }
-	
-	      // Wait
-	      while ( step.processRow( meta, data ) ) {
-	        if ( step.isStopped() ) {
-	          break;
-	        }
-	      }
-	    } catch ( Throwable t ) {
-	      try {
-	        // check for OOME
-	        if ( t instanceof OutOfMemoryError ) {
-	          // Handle this different with as less overhead as possible to get an error message in the log.
-	          // Otherwise it crashes likely with another OOME in Me$$ages.getString() and does not log
-	          // nor call the setErrors() and stopAll() below.
-	          log.logError( "UnexpectedError: ", t );
-	        } else {
-	          t.printStackTrace();
-	          log.logError( BaseMessages.getString( "System.Log.UnexpectedError" ), t );
-	        }
-	
-	        String logChannelId = log.getLogChannelId();
-	        LoggingObjectInterface loggingObject = LoggingRegistry.getInstance().getLoggingObject( logChannelId );
-	        String parentLogChannelId = loggingObject.getParent().getLogChannelId();
-	        List<String> logChannelChildren = LoggingRegistry.getInstance().getLogChannelChildren( parentLogChannelId );
-	        int childIndex = Const.indexOfString( log.getLogChannelId(), logChannelChildren );
-	        System.out.println( "child index = "
-	          + childIndex + ", logging object : " + loggingObject.toString() + " parent=" + parentLogChannelId );
-	        KettleLogStore.getAppender().getBuffer( "2bcc6b3f-c660-4a8b-8b17-89e8cbd5b29b", false );
-	        // baseStep.logError(Const.getStackTracker(t));
-	      } catch ( OutOfMemoryError e ) {
-	        e.printStackTrace();
-	      } finally {
-	        step.setErrors( 1 );
-	        step.stopAll();
-	      }
-	    } finally {
-	      step.dispose( meta, data );
-	      step.getLogChannel().snap( Metrics.METRIC_STEP_EXECUTION_STOP );
-	      try {
-	        long li = step.getLinesInput();
-	        long lo = step.getLinesOutput();
-	        long lr = step.getLinesRead();
-	        long lw = step.getLinesWritten();
-	        long lu = step.getLinesUpdated();
-	        long lj = step.getLinesRejected();
-	        long e = step.getErrors();
-	        if ( li > 0 || lo > 0 || lr > 0 || lw > 0 || lu > 0 || lj > 0 || e > 0 ) {
-	          log.logBasic( BaseMessages.getString( PKG, "BaseStep.Log.SummaryInfo", String.valueOf( li ),
-	            String.valueOf( lo ), String.valueOf( lr ), String.valueOf( lw ),
-	            String.valueOf( lu ), String.valueOf( e + lj ) ) );
-	        } else {
-	          log.logDetailed( BaseMessages.getString( PKG, "BaseStep.Log.SummaryInfo", String.valueOf( li ),
-	            String.valueOf( lo ), String.valueOf( lr ), String.valueOf( lw ),
-	            String.valueOf( lu ), String.valueOf( e + lj ) ) );
-	        }
-	      } catch ( Throwable t ) {
-	        //
-	        // it's likely an OOME, so we don't want to introduce overhead by using BaseMessages.getString(), see above
-	        //
-	        log.logError( "UnexpectedError: " + Const.getStackTracker( t ) );
-	      } finally {
-	        step.markStop();
-	      }
-	    }
-  	}
+      if ( log.isDetailed() ) {
+	log.logDetailed( BaseMessages.getString( "System.Log.StartingToRun" ) );
+      }
+
+      // Wait
+      while ( step.processRow( meta, data ) ) {
+	if ( step.isStopped() ) {
+	  break;
+	}
+      }
+    } catch ( Throwable t ) {
+      try {
+	// check for OOME
+	if ( t instanceof OutOfMemoryError ) {
+	  // Handle this different with as less overhead as possible to get an error message in the log.
+	  // Otherwise it crashes likely with another OOME in Me$$ages.getString() and does not log
+	  // nor call the setErrors() and stopAll() below.
+	  log.logError( "UnexpectedError: ", t );
+	} else {
+	  t.printStackTrace();
+	  log.logError( BaseMessages.getString( "System.Log.UnexpectedError" ), t );
+	}
+
+	String logChannelId = log.getLogChannelId();
+	LoggingObjectInterface loggingObject = LoggingRegistry.getInstance().getLoggingObject( logChannelId );
+	String parentLogChannelId = loggingObject.getParent().getLogChannelId();
+	List<String> logChannelChildren = LoggingRegistry.getInstance().getLogChannelChildren( parentLogChannelId );
+	int childIndex = Const.indexOfString( log.getLogChannelId(), logChannelChildren );
+	System.out.println( "child index = "
+	  + childIndex + ", logging object : " + loggingObject.toString() + " parent=" + parentLogChannelId );
+	KettleLogStore.getAppender().getBuffer( "2bcc6b3f-c660-4a8b-8b17-89e8cbd5b29b", false );
+	// baseStep.logError(Const.getStackTracker(t));
+      } catch ( OutOfMemoryError e ) {
+	e.printStackTrace();
+      } finally {
+	step.setErrors( 1 );
+	step.stopAll();
+      }
+    } finally {
+      step.dispose( meta, data );
+      step.getLogChannel().snap( Metrics.METRIC_STEP_EXECUTION_STOP );
+      try {
+	long li = step.getLinesInput();
+	long lo = step.getLinesOutput();
+	long lr = step.getLinesRead();
+	long lw = step.getLinesWritten();
+	long lu = step.getLinesUpdated();
+	long lj = step.getLinesRejected();
+	long e = step.getErrors();
+	if ( li > 0 || lo > 0 || lr > 0 || lw > 0 || lu > 0 || lj > 0 || e > 0 ) {
+	  log.logBasic( BaseMessages.getString( PKG, "BaseStep.Log.SummaryInfo", String.valueOf( li ),
+	    String.valueOf( lo ), String.valueOf( lr ), String.valueOf( lw ),
+	    String.valueOf( lu ), String.valueOf( e + lj ) ) );
+	} else {
+	  log.logDetailed( BaseMessages.getString( PKG, "BaseStep.Log.SummaryInfo", String.valueOf( li ),
+	    String.valueOf( lo ), String.valueOf( lr ), String.valueOf( lw ),
+	    String.valueOf( lu ), String.valueOf( e + lj ) ) );
+	}
+      } catch ( Throwable t ) {
+	//
+	// it's likely an OOME, so we don't want to introduce overhead by using BaseMessages.getString(), see above
+	//
+	log.logError( "UnexpectedError: " + Const.getStackTracker( t ) );
+      } finally {
+	step.markStop();
+      }
+    }
+}
+```
