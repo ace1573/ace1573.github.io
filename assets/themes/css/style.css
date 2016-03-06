@@ -15,8 +15,14 @@
 
 body {
   font-family: Verdana, Arial, "Microsoft YaHei", sans-serif;
-  line-height: 160%;
+  line-height: 1.6;
   background-color: #eee;
+}
+
+p {
+	font-size: 1.1em;
+	line-height: 1.6;
+	font-weight: 300;
 }
 
 /* Jekyll Bootstrap Colors */
@@ -100,6 +106,38 @@ body {
 .post-full .date {
   margin-bottom: 20px;
   font-weight: bold; }
+  
+.page-header h1, .post-full h1, .post-full h2, .post-full h3, .post-full h4 {
+	position: relative;
+    margin-top: 1em;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.page-header h1, .post-full h1 {
+	font-size: 200%;
+}
+
+.post-full h2 {
+	font-size: 175%;
+}
+
+.post-full h3 {
+	font-size: 150%;
+}
+
+.post-full h4 {
+	font-size: 140%;
+}
+
+.post-full h5 {
+	font-size: 130%;
+}
+
+.post-full h6 {
+	font-size: 120%;
+}
 
 /* tag_box */
 .tag_box {
@@ -155,8 +193,9 @@ body {
 
 @media screen and (max-width: 768px) {
 	#intro-panel {
-		margin-top: 5px;
-		border-left: 1px solid #ddd;
+		/*margin-top: 5px;
+		border-left: 1px solid #ddd;*/
+		display: none;
 	}
 }
 

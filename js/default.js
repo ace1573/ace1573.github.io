@@ -1,11 +1,38 @@
 $(document).ready(function(){
 	// ....
-	
+	addFancyBoxToContentImg();
+	adjustImg2();
+});
+
+var addFancyBoxToContentImg = function() {
+	$('.post-full .content img').each(function() {
+		var imgSrc = $(this).attr('src');
+		$(this).wrap('<a class="fancybox" href="' + imgSrc + '"></a>');
+	});
+	$('.fancybox').fancybox({
+		helpers: {
+			overlay: {
+				locked: false
+			}
+		}
+	});
+};
+
+var adjustImg2 = function() {
+	$('.post-full .content img').each(function() {
+		$(this).css({
+			'max-width': '100%',
+			'display': 'block'
+		});
+	});
+};
+
+var adjustImg = function() {
 	var contentWidth = $('.post-full .content').width();
-	console.info('contentWidth = ' + contentWidth);
+	// console.info('contentWidth = ' + contentWidth);
 	$('.post-full .content img').each(function() {
 		var imgWidth = $(this).width();
-		console.info($(this).attr('src') + ', img width = ' + imgWidth);
+		// console.info($(this).attr('src') + ', img width = ' + imgWidth);
 		if(imgWidth > contentWidth || imgWidth == 0) {
 			$(this).css({
 				'width': '100%',
@@ -13,8 +40,7 @@ $(document).ready(function(){
 			});
 		}
 	});
-	
-});
+};
 
 var showEmail = function() {
 	// alert('showEmail is called');
