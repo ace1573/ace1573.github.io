@@ -43,7 +43,7 @@ CXF提供了API供开发者来创建并使用**Continuation**,关于continuation
  
 通过`@UseAsyncMethod`注解同步方法，让同步方法在满足异步调用条件下调用其对应的异步方法
 
-{% highlight java %}
+```java
 @UseAsyncMethod
 public String sayHello(String username) {
 	return "hello " + username;
@@ -58,7 +58,7 @@ public Response<String> sayHelloAsync(String username) {
 	// ...
 	return null;
 }
-{% endhighlight %}
+```
 
 如上所示,sayHello方法注解了@UseAsyncMethod,如果web容器支持异步调用，将会调用其对应的sayHelloAsync方法,如果不支持异步调用，那么将会调用同步的sayHello方法。
 
@@ -105,7 +105,7 @@ CXF依赖于Web容器来发布webservice,必须确保Web容器支持异步机制
 
 #### 2.2.1 开发HelloService接口
 
-{% highlight java %}
+```java
 package com.hello;
 
 import java.util.concurrent.Future;
@@ -127,60 +127,62 @@ public interface HelloService {
 	public Response<String> sayHelloAsync(String username);
 	
 }
-{% endhighlight %}
+```
 
 #### 2.2.2 实现HelloServiceImpl
 
-	package com.hello;
-	
-	import java.util.concurrent.Future;
-	
-	import javax.jws.WebService;
-	import javax.xml.ws.AsyncHandler;
-	import javax.xml.ws.Response;
-	
-	import org.apache.cxf.annotations.UseAsyncMethod;
-	import org.apache.cxf.jaxws.ServerAsyncResponse;
-	
-	@WebService(endpointInterface="com.hello.HelloService")
-	public class HelloServiceImpl implements HelloService {
-	
-		@Override
-		@UseAsyncMethod
-		public String sayHello(String username) {
-			System.out.println("execute sayHello method");
-			try {
-	            Thread.sleep(5000);
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-			return "hello " + username;
-		}
-	
-		@Override
-		public Future<String> sayHelloAsync(String username,
-				AsyncHandler<String> asyncHandler) {
-			System.out.println("execute sayHelloAsync method");
-			final ServerAsyncResponse<String> asyncResponse = new ServerAsyncResponse<String>();
-	        new Thread() {
-	            public void run() {
-	                String result = sayHello(username);
-	                asyncResponse.set(result);
-	                System.out.println("Responding on background thread\n");
-	                asyncHandler.handleResponse(asyncResponse);
-	            }
-	        }.start();
-	
-	        return asyncResponse;
-		}
-	
-		@Override
-		public Response<String> sayHelloAsync(String username) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	
+```java
+package com.hello;
+
+import java.util.concurrent.Future;
+
+import javax.jws.WebService;
+import javax.xml.ws.AsyncHandler;
+import javax.xml.ws.Response;
+
+import org.apache.cxf.annotations.UseAsyncMethod;
+import org.apache.cxf.jaxws.ServerAsyncResponse;
+
+@WebService(endpointInterface="com.hello.HelloService")
+public class HelloServiceImpl implements HelloService {
+
+	@Override
+	@UseAsyncMethod
+	public String sayHello(String username) {
+		System.out.println("execute sayHello method");
+		try {
+Thread.sleep(5000);
+} catch (InterruptedException e) {
+e.printStackTrace();
+}
+		return "hello " + username;
 	}
+
+	@Override
+	public Future<String> sayHelloAsync(String username,
+			AsyncHandler<String> asyncHandler) {
+		System.out.println("execute sayHelloAsync method");
+		final ServerAsyncResponse<String> asyncResponse = new ServerAsyncResponse<String>();
+new Thread() {
+public void run() {
+String result = sayHello(username);
+asyncResponse.set(result);
+System.out.println("Responding on background thread\n");
+asyncHandler.handleResponse(asyncResponse);
+}
+}.start();
+
+return asyncResponse;
+	}
+
+	@Override
+	public Response<String> sayHelloAsync(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
+```
 
 ### 2.3 发布webservice
 
@@ -188,16 +190,18 @@ public interface HelloService {
 
 通过Spring配置CXF发布webservice的端口及地址
 
-	<?xml version="1.0" encoding="UTF-8"?>
-	<beans xmlns="http://www.springframework.org/schema/beans"
-	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	    xsi:schemaLocation="
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
-	
-		<jaxws:endpoint id="helloService" implementor="com.hello.HelloServiceImpl" address="/helloService"></jaxws:endpoint>
-	
-	</beans>
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<jaxws:endpoint id="helloService" implementor="com.hello.HelloServiceImpl" address="/helloService"></jaxws:endpoint>
+
+</beans>
+```
 
 **【注意】** cxf.xml文件放置在/WEB-INF/目录下，即与web.xml处于同个目录
 
@@ -205,31 +209,33 @@ public interface HelloService {
 
 在web.xml里面配置CXFServlet来发布webservice
 
-	<?xml version="1.0" encoding="UTF-8"?>
-	<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee           
-	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-	    <context-param>
-	        <param-name>contextConfigLocation</param-name>
-	        <param-value>WEB-INF/cxf.xml</param-value>
-	    </context-param>
-	
-	    <listener>
-	        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	    </listener>
-	
-	    <servlet>
-	        <servlet-name>CXFServlet</servlet-name>
-	        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
-	        <load-on-startup>1</load-on-startup>
-	        <async-supported>true</async-supported>
-	    </servlet>
-	
-	    <servlet-mapping>
-	        <servlet-name>CXFServlet</servlet-name>
-	        <url-pattern>/services/*</url-pattern>
-	    </servlet-mapping>
-	</web-app>
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee           
+http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>WEB-INF/cxf.xml</param-value>
+    </context-param>
+
+    <listener>
+	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+	<servlet-name>CXFServlet</servlet-name>
+	<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
+	<async-supported>true</async-supported>
+    </servlet>
+
+    <servlet-mapping>
+	<servlet-name>CXFServlet</servlet-name>
+	<url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+</web-app>
+```
 
 #### 2.3.3 使用Tomcat加载应用
 
@@ -239,46 +245,48 @@ public interface HelloService {
 
 ### 2.4 开发webservice客户端调用
 
-	package com.hello.client;
-	
-	import java.util.concurrent.Future;
-	
-	
-	import org.apache.cxf.interceptor.LoggingInInterceptor;
-	import org.apache.cxf.interceptor.LoggingOutInterceptor;
-	import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-	
-	import com.hello.HelloService;
-	
-	
-	public final class HelloClient2 {
-	
-	    public static void main(String args[]) throws Exception {
-	
-	        JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-	
-	        factory.setServiceClass(HelloService.class);
-	        factory.setAddress("http://192.168.16.52:8080/CXFTutorial/services/helloService?wsdl");
-	        factory.getInInterceptors().add(new LoggingInInterceptor());
-	        factory.getOutInterceptors().add(new LoggingOutInterceptor());
-	        HelloService client = (HelloService) factory.create();
-	
-	       
-	        // callback method
-	        TestAsyncHandler testAsyncHandler = new TestAsyncHandler();
-	        System.out.println("Invoking changeStudentAsync using callback object...");
-	        Future<?> response = client.sayHelloAsync(
-	                "CrazyPig", testAsyncHandler);
-	        while (!response.isDone()) {
-	            Thread.sleep(100);
-	        }
-	        
-	        String resp = testAsyncHandler.getResponse();
-	        System.out.println("Server responded through callback with: " + resp);
-	
-	        System.exit(0);
-	    }
+```java
+package com.hello.client;
+
+import java.util.concurrent.Future;
+
+
+import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.interceptor.LoggingOutInterceptor;
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+
+import com.hello.HelloService;
+
+
+public final class HelloClient2 {
+
+    public static void main(String args[]) throws Exception {
+
+	JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+
+	factory.setServiceClass(HelloService.class);
+	factory.setAddress("http://192.168.16.52:8080/CXFTutorial/services/helloService?wsdl");
+	factory.getInInterceptors().add(new LoggingInInterceptor());
+	factory.getOutInterceptors().add(new LoggingOutInterceptor());
+	HelloService client = (HelloService) factory.create();
+
+       
+	// callback method
+	TestAsyncHandler testAsyncHandler = new TestAsyncHandler();
+	System.out.println("Invoking changeStudentAsync using callback object...");
+	Future<?> response = client.sayHelloAsync(
+		"CrazyPig", testAsyncHandler);
+	while (!response.isDone()) {
+	    Thread.sleep(100);
 	}
+	
+	String resp = testAsyncHandler.getResponse();
+	System.out.println("Server responded through callback with: " + resp);
+
+	System.exit(0);
+    }
+}
+```
 
 
 通过实现了AsyncHandler接口的TestAsyncHandler来处理webservice响应结果，handleResponse方法会在服务端处理完结果后被调用，即所谓的回调机制。
@@ -287,27 +295,28 @@ public interface HelloService {
 
 当然，如果你需要根据webservice返回结果来进行你的下一步逻辑，也可以直接调用response.get()，这个方法会阻塞到调用结果成功返回。(实际上这样跟调用同步方法没什么区别了)
 
-	package com.hello.client;
-	
-	import javax.xml.ws.AsyncHandler;
-	import javax.xml.ws.Response;
-	
-	public class TestAsyncHandler implements AsyncHandler<String> {
-	
-	    private String reply;
-	
-	    public void handleResponse(Response<String> response) {
-	        try {
-	            System.out.println("handleResponse called");
-	            reply = response.get();
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	        }
-	    }
-	
-	    public String getResponse() {
-	        return reply;
-	    }
-	
-	}
+```java
+package com.hello.client;
 
+import javax.xml.ws.AsyncHandler;
+import javax.xml.ws.Response;
+
+public class TestAsyncHandler implements AsyncHandler<String> {
+
+    private String reply;
+
+    public void handleResponse(Response<String> response) {
+	try {
+	    System.out.println("handleResponse called");
+	    reply = response.get();
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
+    }
+
+    public String getResponse() {
+	return reply;
+    }
+
+}
+```

@@ -30,6 +30,14 @@ p {
   color: #000000;
 }*/
 
+
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+}
+
 .navbar-brand {
 	font-size: 1.4em;
 	font-weight: bold;
