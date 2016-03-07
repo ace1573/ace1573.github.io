@@ -24,9 +24,6 @@ published : true
 
 Jekyll是一种简单的、适用于博客的、静态网站生成引擎。它使用一个模板目录作为网站布局的基础框架，支持Markdown的解析，提供了模板、变量、插件等功能，最终生成一个完整的静态Web站点。说白了就是，只要安装Jekyll的规范和结构，不用写html，就可以生成网站。Github Pages允许我们使用Jekyll来搭建个人站点。
 
-Jekyll使用Liquid模板语言来构建静态站点。如：{{page.title}}表示文章标题，{{content}}表示文章内容。我们可以用两种Liquid标记语言：输出标记（output markup）和标签标记 (tag markup)。输出标记会输出文本（如果被引用的变量存在），而标签标记不会。输出标记是用双花括号分隔，而标签标记是用花括号-百分号对分隔。
-
-
 ## 2. 搭建流程
 
 ### 2.1 本地开发环境搭建
@@ -131,7 +128,6 @@ tags : [jekyll, blog]
 title : 使用GitHub Pages搭建技术博客
 published : false
 ---
-{% include JB/setup %}
 
 ## 第一篇文章
 
