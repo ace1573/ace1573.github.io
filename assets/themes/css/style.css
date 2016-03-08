@@ -156,6 +156,23 @@ body {
 	color: #777;
 }
 
+/** remove Bootstrap pre css style **/
+
+/*
+.post-full .content .highlight pre {
+	display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #f8f8f2;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #49483e;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+}*/
+
 /* tag_box */
 .tag_box {
   list-style: none;
