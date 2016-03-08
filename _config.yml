@@ -15,12 +15,12 @@ paginate: 5
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : CrazyPig's Blog
+title : lib's Blog
 tagline: 脚踏实地, 一步一步往上爬
 author :
-  name : CrazyPig
-  email : 18825111236@163.com
-  github : ZzzCrazyPig
+  name : lib
+  email : ace1573@163.com
+  github : ace1573
   twitter : NONE
   feedburner : NONE
 
@@ -32,7 +32,7 @@ author :
 # Else if you are pushing to username.github.io, replace with your username.
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
-production_url : http://zzzcrazypig.github.io
+production_url : http://ace1573.github.io
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
