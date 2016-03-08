@@ -16,7 +16,7 @@ paginate: 5
 # so be sure to set them if your theme uses them.
 #
 title : lib's Blog
-tagline: 脚踏实地, 一步一步往上爬
+tagline: 就这样吧
 author :
   name : lib
   email : ace1573@163.com
@@ -101,7 +101,7 @@ JB :
       width: 580
       colorscheme: light
     duoshuo :
-      name : zzzcrazypig
+      name : lib
    
   # Settings for analytics helper
   # Set 'provider' to the analytics provider you want to use.
@@ -121,7 +121,7 @@ JB :
         baseURL : 'myserver.tld/piwik' # Piwik installation address (without protocol)
         idsite : '1'                   # the id of the site on Piwik
     baidu :
-        tracking_id : '60532129b90a8aadb440f8ac86d0e81d'
+        tracking_id : '85057be3574b809b4b5861043e11273d'
 
   # Settings for sharing helper. 
   # Sharing is for things like tweet, plusone, like, reddit buttons etc.
