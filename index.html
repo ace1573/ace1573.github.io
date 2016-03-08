@@ -7,8 +7,6 @@ comments: false
 ---
 {% include JB/setup %}
 
-<div>
-
 	{% for post in paginator.posts %}
 	<div id="article" class="well">
 		<div id="article-header">
@@ -16,7 +14,7 @@ comments: false
 		</div>
 		<div id="content">
 			<p class="text-indent">
-				{{ post.content | strip_html | truncate : 350 }}
+				{{ post.content | strip_html | truncate : 300 }}
 			</p>
 		</div>
 		<div id="article-footer">
@@ -24,10 +22,6 @@ comments: false
 		</div>
 	</div>
   {% endfor %}
-
-
-</div>
-
 
 <!-- Pagination Links -->
 <nav class="text-center">
