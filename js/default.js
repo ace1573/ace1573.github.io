@@ -109,7 +109,7 @@ var adjustImg = function() {
 var showEmail = function() {
 	// alert('showEmail is called');
 	var myModalBody = $('#myModalBody');
-	var content = '<p>我的邮箱 : 18825111236@163.com</p>';
+	var content = '<p>我的邮箱 : ace1573@163.com</p>';
 	myModalBody.html(content);
 	$('#myModal').modal({
 		show: true
