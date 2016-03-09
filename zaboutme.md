@@ -8,15 +8,15 @@ group: navigation
 
 ### <个人信息>
 
-陈建欣 / 男 / 1992 / 广东潮州
+李标 / 男 / 1993 / 广东揭阳
 
-华南师范大学 / 本科 / 计算机科学与技术
+华南师范大学 / 本科 / 网络工程
 
 工作年限 : 1年
 
-博客 : [http://blog.csdn.net/d6619309](http://blog.csdn.net/d6619309)
+博客 : [http://blog.csdn.net/ace1573](http://blog.csdn.net/ace1573)
 
-Github : [https://github.com/ace1573](http://blog.csdn.net/ace1573)
+Github : [https://github.com/ace1573](https://github.com/ace1573)
 
 
 ### <工作经历>
