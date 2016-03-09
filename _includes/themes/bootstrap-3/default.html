@@ -13,18 +13,11 @@
 
     <!-- Bootstrap styles -->
     <link href="{{ ASSET_PATH }}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Optional theme -->
-    <link href="{{ ASSET_PATH }}/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-    <!-- Sticky Footer -->
-    <link href="{{ ASSET_PATH }}/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
     
-    <!-- Custom styles -->
-    <link href="{{ ASSET_PATH }}/css/style.css" rel="stylesheet" type="text/css" media="all">
-
-	<link href="{{ ASSET_PATH}}/bootstrap/css/bootstrap-metro.css" rel="stylesheet">
-	<link href="{{ ASSET_PATH}}/bootstrap/css/bootstrap-extend.css" rel="stylesheet">
-	<link href="{{ ASSET_PATH}}/bootstrap/css/bootstrap-theme-extend.css" rel="stylesheet">
-
+	<!-- Bootstrap Material Design -->
+    <link href="{{ ASSET_PATH }}/bootstrap-material/css/bootstrap-material-design.css" rel="stylesheet">
+    <link href="{{ ASSET_PATH }}/bootstrap-material/css/ripples.min.css" rel="stylesheet">
+	
 	<link href="{{ ASSET_PATH}}/bootstrap/css/font-awesome.css" rel="stylesheet">
 	
 	<!-- Add fancyBox -->
@@ -172,8 +165,19 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ ASSET_PATH }}/bootstrap/js/jquery-latest.js"></script>
     <script src="{{ ASSET_PATH }}/bootstrap/js/bootstrap.min.js"></script>
+	
+	<!--bootstrap material js-->
+	<script src="{{ ASSET_PATH }}/bootstrap-material/js/ripples.min.js"></script>
+	<script src="{{ ASSET_PATH }}/bootstrap-material/js/material.min.js"></script>
+	
 	<script type="text/javascript" src="{{ASSET_PATH}}/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 	<script src="/js/to-top.js"></script>
 	<script src="/js/default.js"></script>
+	
+	<script>
+		$(function () {
+			$.material.init();
+		});
+	</script>
   </body>
 </html>
