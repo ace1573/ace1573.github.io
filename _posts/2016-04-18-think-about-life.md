@@ -1,7 +1,7 @@
 ---
 layout: post
-category : mind
-tags : [mind]
+category : think
+tags : [think]
 title : 思考人生
 published : true
 ---
