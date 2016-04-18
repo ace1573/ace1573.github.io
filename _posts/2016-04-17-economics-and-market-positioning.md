@@ -2,7 +2,7 @@
 layout: post
 category : mind
 tags : [mind]
-title : 瞎扯：经济学&市场定位
+title : 瞎扯：经济学&市场定位&医疗改革&饿了么
 published : true
 ---
 {% include JB/setup %}
